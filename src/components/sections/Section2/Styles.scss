@@ -1,0 +1,10 @@
+ @import  '../../../themes/Styles/Styles.scss';
+.section2 {
+    @include xs{
+       opacity: 0.4
+      }
+      @include sm{
+       opacity: 0.6
+      }
+
+}
