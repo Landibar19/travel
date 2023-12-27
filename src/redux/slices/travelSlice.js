@@ -1,20 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  travelData: {
-    travelDate: '',
-    destination: '',
-    budget: '',
-    airportName: '',
-    tripType: '', // Change this to an appropriate default value
-  },
+  travelData: [],
 };
 
 const travelSlice = createSlice({
   name: 'travel',
   initialState,
   reducers: {
-    updateTravelData: (state, action) => {
+    updateTravelData(state, action){
       state.travelData = action.payload;
     },
   },

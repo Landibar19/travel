@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Container, Grid, Icon, Stack, Tab, Tabs, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import {useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import NavBar from '../../components/navBar/NavBar';
 import {PacakgeDetailContent } from '../../utility/PacakgeDetailContent/PacakgeDetailContent';
 import './Styles.scss'
@@ -10,12 +10,14 @@ import ProductRating from '../../components/Rating/ProductRating';
 import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import BookForm from '../BookForm/BookForm';
+import {SELECT_PACKAGES} from '../../redux/slices/PackagesSlice';
 
 const {packageDetail, logo, text, subtitle} = PacakgeDetailContent
 
 
 
 const PackageDetail = () => {
+  const dispatch = useDispatch()
   
   const [tabValue, setTabValue] = useState(0)
   const navigate = useNavigate() 
@@ -23,7 +25,7 @@ const PackageDetail = () => {
   const packages = useSelector((state)=> state.travelPackages.packages)
   console.log(packages)
   const{hotel, name, days, price,hotelDetail, title,hotelPhotos} = packages
-  
+  console.log(price)
   const handleChange = (e, newValue) => {
       setTabValue(newValue)
     };
@@ -35,7 +37,9 @@ const PackageDetail = () => {
   
   const handleAddForm = () => {
     navigate('/bookForm')
+    dispatch(SELECT_PACKAGES(price))
   }
+ 
   return (
     <Container maxWidth='xxl' disableGutters>
        <NavBar/>

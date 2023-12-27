@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, MenuItem, Paper, Typography, Box, Stack, Container } from '@mui/material';
+import { TextField, Button, Grid, Typography, Box, Stack, Container, ThemeProvider } from '@mui/material';
+import { useSelector } from 'react-redux';
+import theme from '../../themes/theme';
 
 
-const TravelerDetails = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        lastName: '',
-        address: '',
-        email: '',
-        celNumber: '',
-      
-      });
 
-    const handleChange = (e) => {
+const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
+    const price = useSelector((state)=> state.travelPackages.selectedPackages)
+
+    const handleChange = (e, index) => {
         const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
+        const newFormData = [...formDataTraveler];
+        newFormData[index] = { ...newFormData[index], [name]: value };
+        setFormDataTraveler(newFormData);
       };
-      const handleSubmit = (e) => {
-        e.preventDefault();
+      
+      const addTraveler = () => {
+        setFormDataTraveler([...formDataTraveler, { name: '', lastName: '', cellNumber: '', price: price }]);
       };
+    
+
+      const removeTraveler = (index) => {
+        const newFormData = [...formDataTraveler];
+        newFormData.splice(index, 1);
+        setFormDataTraveler(newFormData);
+      }
   return (
     <Container maxWidth= 'xxl' sx={{backgroundColor: 'rgb(38,166,166)'}}>
         <Box
@@ -32,9 +35,36 @@ const TravelerDetails = () => {
             flexDirection:' column'
             }}
             >
-            <Stack  width='90%'>
-                <form onSubmit={handleSubmit} style={{ borderRadius: '4px'}}>
-                    <Grid container >
+                <Typography
+                variant='h5'
+                sx={{
+                    fontFamily: 'Montserrat', 
+                    color: 'white', 
+                    fontWeight: 'bold',
+                    }}>
+                    Complete your order form for your Trip
+                </Typography>
+               
+                <Stack  width='90%'> 
+                <ThemeProvider theme={theme}>
+                     <form style={{ borderRadius: '4px'}} onSubmit={onSubmit}>  
+                    {formDataTraveler.map((traveler,index) =>(
+                    <Grid container key={index} >
+                        <Stack 
+                        sx={{
+                            width: '90%',
+                            display: 'flex',
+                            flexDirection: 'row', 
+                            justifyContent: 'space-between',
+                            marginTop: '4%'
+                            }}>
+                        <Typography sx={{fontFamily: 'Montserrat',color: 'white', fontWeight: 'bold'}}>
+                                Traveler {index+ 1}
+                        </Typography>
+                        <Typography sx={{fontFamily: 'Montserrat', color: 'white', fontWeight: 'bold'}}>
+                            Price Package:{price}
+                        </Typography>
+                        </Stack>
                         <Stack 
                         sx={{
                             display: 'flex', 
@@ -53,16 +83,8 @@ const TravelerDetails = () => {
                             name="name"
                             label="Name"
                             fullWidth
-                            value={formData.name}
-                            onChange={handleChange}
-                            sx={{
-                                backgroundColor: 'rgb(38,166,166)', 
-                                borderRadius:'8px',
-                                '& input': {
-                                    color: 'white',
-                                    margin:{xs:'-3%', sm: '-1px'}
-                                 }
-                            }}
+                            value={traveler.name}
+                            onChange={(e)=> handleChange(e, index)}
                         />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -70,33 +92,17 @@ const TravelerDetails = () => {
                             name="lastName"
                             label="LastName"
                             fullWidth
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            sx={{
-                                backgroundColor: 'rgb(38,166,166)', 
-                                borderRadius:'8px',
-                                '& input': {
-                                    color: 'white',
-                                    margin:{xs:'-3%', sm: '-1px'}
-                                 }
-                            }}
+                            value={traveler.lastName}
+                            onChange={ (e)=> handleChange(e, index)}
                         />
                         </Grid>
                         <Grid item xs={12} sm={8}>
                         <TextField
                             name="email"
                             label="Email"
+                            value={traveler.email}
                             fullWidth
-                            value={formData.email}
-                            onChange={handleChange}
-                            sx={{
-                                backgroundColor: 'rgb(38,166,166)', 
-                                borderRadius:'8px',
-                                '& input': {
-                                    color: 'white',
-                                    margin:{xs:'-3%', sm: '-1px'}
-                                }
-                            }}
+                            onChange={(e)=> handleChange(e, index)}
                         />
                         </Grid>
                         </Stack>
@@ -111,47 +117,46 @@ const TravelerDetails = () => {
                             backgroundColor: 'white',
                             padding: '3% 3%' ,
                             borderRadius:'4px',
-                            marginTop: '4%'
+                            marginTop: '4%',
                         }}>
                         <Grid item xs={12}>
                         <TextField
                             name="celNumber"
                             label="celNumber"
+                            value={traveler.celNumber}
                             fullWidth
-                            value={formData.celNumber}
-                            onChange={handleChange}
-                            sx={{
-                                backgroundColor: 'rgb(38,166,166)', 
-                                borderRadius:'8px',
-                                '& input': {
-                                    color: 'white',
-                                    margin:{xs:'-3%', sm: '-1px'}
-                                }
-                            }}
+                            onChange={(e)=> handleChange(e, index)}
                         />
                         </Grid>
                         <Grid item xs={12}>
                         <TextField
                             name="address"
                             label="Addres"
+                            value={traveler.address}
                             fullWidth
-                            value={formData.address}
-                            onChange={handleChange}
+                            onChange={(e)=> handleChange(e, index)}
                             multiline
                             rows={3}
-                            sx={{
-                                backgroundColor: 'rgb(38,166,166)', 
-                                borderRadius:'8px',
-                                '& input': {
-                                    color: 'white'
-                                }
-                            }}
                         />
                         </Grid>
                         </Stack>
+                        <Button 
+                        onClick={() => removeTraveler(index)}
+                        >
+                            Remove Form
+                        </Button>
                     </Grid>
-                </form>
-            </Stack>
+                        
+                    ))}
+                    <Button 
+                    onClick={addTraveler}
+                    >
+                        AddForm
+                    </Button>
+                    </form>
+                </ThemeProvider>   
+                   
+                </Stack>
         </Box>
     </Container>
   )

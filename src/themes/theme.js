@@ -15,8 +15,35 @@ const theme = createTheme({
     },
   },
   typography,
+  
    
   components: {
+    
+        MuiTextField: {
+          styleOverrides: {
+            root: {
+              backgroundColor: 'rgb(38,166,166)',
+              borderRadius: '8px',
+              '& input': {
+                color: 'white',
+              },
+            },
+          },
+        },
+        MuiButton:{
+          styleOverrides:{
+            root: {
+              width:{xs:'25%',sm: '18%'},
+              fontSize:{xs:'2.5vw', sm:'2vw'},
+              textTransform:'capitalize',
+              background: 'rgb(255, 192, 0)',
+              borderRadius:'8px',
+              color: 'black',
+              padding:'3px'
+            }
+          }
+            
+        },
     fontFamily: [
        'Bebas Neue', 'sans-serif',
         'BioRhyme', 'serif',

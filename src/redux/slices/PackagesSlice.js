@@ -4,7 +4,8 @@ const initialState = {
 packages : localStorage.getItem('packages')
 ? JSON.parse(localStorage.getItem('packages'))
 : [],
-
+selectedPackages: null,
+totalPrice: 0
 }
 
 const PackageSlice = createSlice({
@@ -14,7 +15,6 @@ const PackageSlice = createSlice({
     ADD_PACKAGES(state, action){
         state.packages = action.payload.packages
         localStorage.setItem("packages", JSON.stringify(state.packages));
-        console.log(action.payload)
     },
     
     SELECT_PACKAGES(state,action){

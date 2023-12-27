@@ -3,24 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 export const formSlice = createSlice({
   name: 'form',
   initialState: {
-    formData: {
-      name: '',
-      lastName: '',
-      address: '',
-      email: '',
-      celNumber: '',
-      
-    },
+    formDataTraveler: [{name: '',lastName: '',address: '',email: '',celNumber: '', price:0}],
+    formDataTravel: {}
+  
+   
   },
   reducers: {
-    updateFormData: (state, action) => {
-      state.formData = action.payload;
+    addFormDataTraveler(state, action){
+      state.formDataTraveler = action.payload
+    },
+    addFormDataTravel(state, action){
+      state.formDataTravel = action.payload
     },
   },
+  
 });
 
-export const { updateFormData } = formSlice.actions;
-
-export const selectFormData = (state) => state.form.formData;
+export const { addFormDataTraveler,addFormDataTravel } = formSlice.actions;
 
 export default formSlice.reducer;

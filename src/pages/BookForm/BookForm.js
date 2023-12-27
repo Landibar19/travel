@@ -1,50 +1,53 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Container, Stack, Typography, Box, MenuItem } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { TextField, Button, Grid, Container, Stack, Typography, Box, MenuItem, ThemeProvider } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import bookFormBg from '../../assets/bookFormBg.jpg';
 import NavBar from '../../components/navBar/NavBar';
 import TravelerDetails from '../../components/TravelForm/TravelerDetails';
+import TravelDetails from '../../components/TravelForm/TravelDetails';
+import {addFormDataTravel, addFormDataTraveler } from '../../redux/slices/FormSlices';
+import PaymentForm from '../../components/paymentForm/PaymentForm';
+import theme from '../../themes/theme';
 
-const TripTypes = [
-    { value: 'business', label: 'Business' },
-    { value: 'vacation', label: 'Vacation' },
-    { value: 'honeymoon', label: 'Honeymoon' },
-    { value: 'family', label: 'Family' },
-    { value: 'solo', label: 'Solo' },
-  ];
+
 
 const BookForm = () => {
+  const formData = useSelector((state) => state.form.formDataTraveler)
+  const formData1 = useSelector((state)=> state.form.formDataTravel)
+  const price = useSelector((state) => state.travelPackages.selectedPackages)
+
   const dispatch = useDispatch();
 
-  const [forms, setForms] = useState([<TravelerDetails key={0} id={0}/>])
-
-  const [formData, setFormData] = useState({
-    name: '',
-    lastName: '',
-    address: '',
-    email: '',
-    celNumber: '',
-  
-  });
+  const [show,setShow] = useState(true)
+  const [formDataTraveler, setFormDataTraveler] = useState([
+    {name: '',lastName: '',address: '',email: '',celNumber: '', price:price},
+  ])
+    
   const [formDataTravel, setFormDataTravel] = useState({
     travelDate: '',
     destination: '',
-    budget: '',
     airportName: '',
     tripType: '', 
   });
-  const handleAddForm = () => {
-    const newForms = [...forms, <TravelerDetails key={forms.length}  id={forms.length}/>];
-    setForms(newForms);
-  };
-  const handleRemoveForm = (id) => {
-    const updatedForms = forms.filter((form) => form.props.id !== id);
-    setForms(updatedForms);
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    dispatch(addFormDataTraveler(formDataTraveler))
+    dispatch(addFormDataTravel(formDataTravel))
+   setFormDataTraveler ([
+      {name: '',lastName: '',address: '',email: '',celNumber: '', price:0},
+    ])
+    setFormDataTravel({
+      travelDate: '',
+      destination: '',
+      airportName: '',
+      tripType: '', })
+      
+      setShow(false)
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  
+  const calculateTotalPrice = () => {
+    return formDataTraveler.reduce((total, traveler) => total + parseFloat(traveler.price || 0), 0);
   };
 
   return (
@@ -80,86 +83,41 @@ const BookForm = () => {
                 </Typography>
             </Stack>
         </Box>
+        <ThemeProvider theme={theme}>
+        { show ? (
         <Container maxWidth='xxl' disableGutters sx={{backgroundColor: 'rgb(38,166,166)'}}>
-        <Typography 
-        sx={{fontSize: '4vw', 
-        fontFamily: 'Montserrat', 
-        color: 'white', 
-        fontWeight: 'bold',
-        }}
-        >
+          <Typography 
+          variant='h4'
+          sx={{ 
+          fontFamily: 'Montserrat', 
+          color: 'white', 
+          fontWeight: 'bold',
+          }}
+          >
             Travel Agency Booking Form
-        </Typography>
-        <Box position='relative' padding='3%'>
-        {forms.map((form, index) => (
-        <Box key={index} 
-        sx={{display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        flexDirection: 'column'}}>
-            <Stack 
-            sx={{
-                border: '1px solid', 
-                backgroundColor: 'rgb(255, 192, 0, 0.9)',
-                width: '87%', 
-                borderRadius:'8px',
-                margin: '3%'
-            }}
-            >
-            <Typography sx={{ fontSize:{xs: '3.5vw',sm: '2.5vw'}}}>
-                Traveler Information {index + 1}
+          </Typography>
+          <TravelerDetails 
+          onSubmit={handleFormSubmit}
+          formDataTraveler={formDataTraveler} 
+          setFormDataTraveler={setFormDataTraveler}/>
+          <TravelDetails formDataTravel={formDataTravel} setFormDataTravel={setFormDataTravel}/>
+          <Typography variant='h4' color='white'>
+            Total price :{calculateTotalPrice()}$
             </Typography>
-            </Stack>
-          {form}
-        {index==0 ? ( <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => handleRemoveForm(form.props.id)}
-            sx={{padding: '3px', marginLeft:'50%'}}
-            disabled
+          <Typography variant='h5' color='white'>
+          Please submit and continue with payment details
+          </Typography>
+          <Button
+          onClick={handleFormSubmit}
           >
-            Remove
-          </Button>) :(
-            <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => handleRemoveForm(form.props.id)}
-            sx={{padding: '3px', marginLeft:'50%'}}
-          >
-            Remove
+          Submit
           </Button>
-          )
-}
-        </Box>
-      ))}
-      <Button 
-      sx={{padding: '3px',
-       margin:'3px', 
-       position: 'absolute', 
-       left: '20%',
-       bottom: '2.6vw',
-       textTransform: 'capitalize'
-       }} 
-       variant="contained" 
-       color="primary" 
-       onClick={handleAddForm}>
-        Add Form
-      </Button>
-      <Button  
-      variant="contained" 
-      color="primary" 
-      sx={{padding: '3px',
-       margin:'3px', 
-       position: 'absolute', 
-       bottom: '2.6vw',
-       left: '45%'
-       }}
-      onClick={handleSubmit}
-      >
-        Submit
-      </Button>
-        </Box>
         </Container>
+        ) : (
+        <PaymentForm/>
+        )}
+        </ThemeProvider>
+        
     </Container>
     
   );
