@@ -40,7 +40,7 @@ console.log(packages)
             textAlign: 'center',
             backgroundSize:'cover',
             backgroundPosition: 'center',
-            minHeight: '50vw',
+            height: {xs:'50vw',sm:'40vw'},
             width: '100%',
             zIndex: -10
           }}

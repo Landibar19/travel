@@ -8,6 +8,7 @@ import store from './redux/store/store';
 import PackageDetail from './pages/PackageDetail/PackageDetail';
 import { PackageContent } from './utility/productContent/PackageContent';
 import BookForm from './pages/BookForm/BookForm';
+import AboutUs from './pages/AboutUs.js/AboutUs';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
      <BrowserRouter>
       <Routes> 
         <Route path='/' element={<HomePage/>}/>
+        <Route path='about_us' element={<AboutUs/>}/>
         <Route path='travelpackages'>
         <Route index element={<Packages/>}/>
         <Route path= ":packagedetail" element= {<PackageDetail/>} />

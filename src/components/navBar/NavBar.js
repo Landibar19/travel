@@ -30,7 +30,7 @@ const navItems = [
   <LinkButton href='/travelpackages'>
     <Typography>Product</Typography>
   </LinkButton>,
-  <LinkButton href='about'>
+  <LinkButton href='about_us'>
    <Typography>About</Typography>
   </LinkButton>,
   <LinkButton href='contact'>
