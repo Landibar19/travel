@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Container, Stack, Typography, Box, MenuItem, ThemeProvider } from '@mui/material';
+import {Button, Container, Stack, Typography, Box, ThemeProvider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import bookFormBg from '../../assets/bookFormBg.jpg';
 import NavBar from '../../components/navBar/NavBar';
@@ -8,17 +8,19 @@ import TravelDetails from '../../components/TravelForm/TravelDetails';
 import {addFormDataTravel, addFormDataTraveler } from '../../redux/slices/FormSlices';
 import PaymentForm from '../../components/paymentForm/PaymentForm';
 import theme from '../../themes/theme';
+import { validateForm } from '../../components/TravelForm/components/validateForm';
+import { updateTravelData } from '../../redux/slices/travelSlice';
 
+import Footer from '../../components/footer/Footer';
 
 
 const BookForm = () => {
-  const formData = useSelector((state) => state.form.formDataTraveler)
-  const formData1 = useSelector((state)=> state.form.formDataTravel)
-  const price = useSelector((state) => state.travelPackages.selectedPackages)
 
+  const price = useSelector((state) => state.travelPackages.selectedPackages)
   const dispatch = useDispatch();
 
   const [show,setShow] = useState(true)
+  const [message, setMessage] = useState('')
   const [formDataTraveler, setFormDataTraveler] = useState([
     {name: '',lastName: '',address: '',email: '',celNumber: '', price:price},
   ])
@@ -34,17 +36,36 @@ const BookForm = () => {
     e.preventDefault()
     dispatch(addFormDataTraveler(formDataTraveler))
     dispatch(addFormDataTravel(formDataTravel))
-   setFormDataTraveler ([
-      {name: '',lastName: '',address: '',email: '',celNumber: '', price:0},
-    ])
+    dispatch(updateTravelData(calculateTotalPrice()))
     setFormDataTravel({
       travelDate: '',
       destination: '',
       airportName: '',
       tripType: '', })
-      
+
+    const hasError = validateForm(formDataTraveler, formDataTravel);
+    if (hasError) {
+      setMessage('Please complete all fields correctly!')
+    } else {
+      setMessage('Completed succesfully.Redirected to payment form....!Thank you!')
+      setTimeout(() => {
+        setFormDataTraveler([{
+          name: '',
+          lastName: '',
+          email: '',
+          celNumber: '',
+          address: ''
+      }])
+      setFormDataTravel({
+        travelDate: '',
+        destination: '',
+        airportName: '',
+        tripType: '', })
       setShow(false)
+      }, 3000)
+    }
   };
+  
   
   const calculateTotalPrice = () => {
     return formDataTraveler.reduce((total, traveler) => total + parseFloat(traveler.price || 0), 0);
@@ -63,7 +84,7 @@ const BookForm = () => {
                     display: 'flex',
                     backgroundSize:'cover',
                     backgroundPosition: 'center',
-                    height: '45vw',
+                    height: '48vw',
                     width: '100%',
                     zIndex: -10,
                     filter: `brightness(${'70%'})`
@@ -75,15 +96,23 @@ const BookForm = () => {
                 position: 'absolute',
                 top: '17vw'
             }}>
-                <Typography sx={{fontSize: '4vw',color: 'white',fontFamily: 'Bebas Neue'}}>
+                <Typography 
+                sx={{
+                  fontSize:{xs:'5vw',sm:'4vw'},
+                  color: 'white',
+                  fontFamily: 'Bebas Neue'}}>
                     Embark on Adventures
                 </Typography>
-                <Typography sx={{fontSize: '4vw',color: 'rgb(255, 192, 0)' ,fontFamily: 'Bebas Neue'}} >
+                <Typography 
+                sx={{
+                  fontSize:{xs:'5vw',sm:'4vw'},
+                  color: 'rgb(255, 192, 0)' ,
+                  fontFamily: 'Bebas Neue'}} >
                     Book Memories: Travel with Us Today!
                 </Typography>
             </Stack>
         </Box>
-        <ThemeProvider theme={theme}>
+        
         { show ? (
         <Container maxWidth='xxl' disableGutters sx={{backgroundColor: 'rgb(38,166,166)'}}>
           <Typography 
@@ -99,25 +128,35 @@ const BookForm = () => {
           <TravelerDetails 
           onSubmit={handleFormSubmit}
           formDataTraveler={formDataTraveler} 
-          setFormDataTraveler={setFormDataTraveler}/>
-          <TravelDetails formDataTravel={formDataTravel} setFormDataTravel={setFormDataTravel}/>
+          setFormDataTraveler={setFormDataTraveler}
+          />
+          <TravelDetails 
+          onSubmit={handleFormSubmit}
+          formDataTravel={formDataTravel} 
+          setFormDataTravel={setFormDataTravel}/>
           <Typography variant='h4' color='white'>
             Total price :{calculateTotalPrice()}$
             </Typography>
           <Typography variant='h5' color='white'>
           Please submit and continue with payment details
           </Typography>
-          <Button
+          <Typography variant='h5' sx={{color:'red', fontWeight:'bold'}}>
+            {message}
+          </Typography>
+          <ThemeProvider theme={theme}>
+            <Button
           onClick={handleFormSubmit}
           >
           Submit
           </Button>
+          </ThemeProvider>
+          
         </Container>
         ) : (
         <PaymentForm/>
         )}
-        </ThemeProvider>
-        
+       
+       <Footer/>
     </Container>
     
   );

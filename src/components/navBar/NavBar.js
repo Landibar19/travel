@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import './Styles.scss'
 import { Stack } from '@mui/material';
 import LinkButton from '../button/LinkButton';
-import { section1Content } from '../../utility/Section1Content';
+import { section1Content } from '../../utility/Sections/Section1Content';
 
 
 const {Picture1} = section1Content
@@ -33,7 +33,7 @@ const navItems = [
   <LinkButton href='about_us'>
    <Typography>About</Typography>
   </LinkButton>,
-  <LinkButton href='contact'>
+  <LinkButton href='contact_us'>
     <Typography>Contact</Typography>
    
   </LinkButton>,

@@ -9,6 +9,7 @@ import PackageDetail from './pages/PackageDetail/PackageDetail';
 import { PackageContent } from './utility/productContent/PackageContent';
 import BookForm from './pages/BookForm/BookForm';
 import AboutUs from './pages/AboutUs.js/AboutUs';
+import ContactUs from './pages/ContactUS/ContactUs';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Routes> 
         <Route path='/' element={<HomePage/>}/>
         <Route path='about_us' element={<AboutUs/>}/>
+        <Route path='contact_us' element={<ContactUs/>}/>
         <Route path='travelpackages'>
         <Route index element={<Packages/>}/>
         <Route path= ":packagedetail" element= {<PackageDetail/>} />

@@ -1,4 +1,4 @@
-import Section8Bg from '../assets/Section8.jpg';
+import Section8Bg from '../../assets/Section8.jpg';
 
 
 export const section8Content = {

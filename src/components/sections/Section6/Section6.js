@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomCountUp from '../../countUp/CustomCountUp';
-import { Section6Content } from '../../../utility/Section6Content';
+import { Section6Content } from '../../../utility/Sections/Section6Content';
 import { Box, Container, Stack, Typography } from '@mui/material';
 
 const {Section6Bg, title, items, text} = Section6Content

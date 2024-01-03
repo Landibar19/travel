@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, MenuItem, Paper, Typography, Container, Box, Stack, ThemeProvider } from '@mui/material';
 import { useSelector } from 'react-redux';
 import theme from '../../themes/theme';
+import { validateField } from './components/validateField';
 
 
 const TripTypes = [
@@ -13,16 +14,21 @@ const TripTypes = [
   ];
 
 
-const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
-  const price = useSelector((state) => state.travelPackages.selectedPackages)
- 
-    
+const TravelDetails = ({formDataTravel, setFormDataTravel, onSubmit}) => {
+  const [errors, setErrors]= useState({
+    travelDate: '',
+    destination: '',
+    airportName: '',
+    tripType: ''
+  })
       const handleChangeTravel = (e) => {
         const { name, value } = e.target;
         setFormDataTravel({
           ...formDataTravel,
           [name]: value,
         });
+        const newErrors = validateField(name, value, errors);
+        setErrors(newErrors);
       };
 
      
@@ -43,7 +49,7 @@ const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
             </Stack>
             <ThemeProvider theme={theme}>
             <Stack sx={{justifyContent: 'center', alignItems: 'center', marginLeft:'1%'}}>
-              <form style={{width: '90%'}}>
+              <form style={{width: '90%'}} onSubmit={onSubmit}>
                   <Grid container spacing={2}  sx={{backgroundColor: 'white', padding: '3%'}}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -51,6 +57,8 @@ const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
                       label="Destination"
                       fullWidth
                       value={formDataTravel.destination}
+                      error={Boolean(errors.destination)}
+                      helperText={errors.destination} 
                       onChange={handleChangeTravel}
                       
                     />
@@ -62,6 +70,8 @@ const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
                       type="date"
                       fullWidth
                       value={formDataTravel.travelDate}
+                      error={Boolean(errors.travelDate)}
+                      helperText={errors.travelDate} 
                       onChange={handleChangeTravel}
                       InputLabelProps={{ shrink: true }}
                       
@@ -73,6 +83,8 @@ const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
                       label="Airport Name"
                       fullWidth
                       value={formDataTravel.airportName}
+                      error={Boolean(errors.airportName)}
+                      helperText={errors.airportName} 
                       onChange={handleChangeTravel}
                       InputLabelProps={{ shrink: true }}
                     />
@@ -84,6 +96,8 @@ const TravelDetails = ({formDataTravel, setFormDataTravel}) => {
                       label="Type of Trip"
                       fullWidth
                       value={formDataTravel.tripType}
+                      error={Boolean(errors.tripType)}
+                      helperText={errors.tripType} 
                       onChange={handleChangeTravel}
                     >
                       {TripTypes.map((option) => (

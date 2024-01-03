@@ -1,6 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { section8Content } from '../../../utility/Section8Content';
+import { section8Content } from '../../../utility/Sections/Section8Content';
 import PhoneInTalk from '@mui/icons-material/PhoneInTalk';
 import Email from '@mui/icons-material/Email';
 import Place from '@mui/icons-material/Place';

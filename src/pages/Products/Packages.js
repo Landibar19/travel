@@ -14,12 +14,10 @@ import {PackageContent} from '../../utility/productContent/PackageContent.js'
 
 const Packages = () => {
   const dispatch = useDispatch();
-  const packages = useSelector((state)=> state.travelPackages)
   const data = PackageContent
 
   const navigate = useNavigate()
  
-console.log(packages)
   const handleAddTravel= (order) => {
     dispatch(ADD_PACKAGES({
       packages: order
@@ -82,7 +80,8 @@ console.log(packages)
             fontFamily: 'Bebas Neue',
             color: 'white',
             lineHeight:'1',
-            textAlign:'left'
+            textAlign:'left',
+            marginTop:{xs:'1%', sm:'7%'}
           }}>
           Vacation Packages: Connecting You and the Destination 
           </Typography>
@@ -94,7 +93,7 @@ console.log(packages)
             backgroundColor: 'rgb(255, 192, 0, 0.5)',
             border: '1px solid ',
             borderRadius: '4px',
-            marginTop: '8%',
+            marginTop: '5%',
             padding: '5%',
             textAlign: 'justify',
           }}>

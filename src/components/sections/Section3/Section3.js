@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import React from 'react';
-import { Section3content } from '../../../utility/Section3Content';
+import { Section3content } from '../../../utility/Sections/Section3Content';
 
 const {Section3Bg, title, subtitle, textTitle, text} = Section3content;
 

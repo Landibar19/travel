@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section4Content } from '../../../utility/Section4Content';
+import { Section4Content } from '../../../utility/Sections/Section4Content';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import CardMembership from '@mui/icons-material/CardMembership';
 

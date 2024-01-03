@@ -9,6 +9,7 @@ import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Footer from './Footer';
 
 const Footer1 = () => {
+  
   const handleSubmit = (event) => {
     event.preventDefault();
   
@@ -19,11 +20,9 @@ const Footer1 = () => {
     component="footer" 
     maxWidth="xxl" 
     sx={{
-        padding: '20px', 
-        marginTop: '40px', 
+        paddingTop: '20px', 
         backgroundColor:'rgb(38,166,166)',
-        border: '2px solid white',
-        borderRadius:'8px'
+        color: 'white'
         }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} justifyContent='flex-end'>
@@ -45,8 +44,8 @@ const Footer1 = () => {
             </ListItem>
           </List>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h6" gutterBottom>
+        <Grid item xs={12} md={6} textAlign='left'>
+          <Typography variant="h6"  >
             Subscribe to Newsletter
           </Typography>
           <form onSubmit={handleSubmit}>
@@ -55,6 +54,14 @@ const Footer1 = () => {
                 <TextField
                   fullWidth
                   label="Email Address"
+                  variant="outlined"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={12} sm={8}>
+                <TextField
+                  fullWidth
+                  label="First Name"
                   variant="outlined"
                   size="small"
                 />

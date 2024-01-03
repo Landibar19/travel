@@ -1,6 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { section5Content } from '../../../utility/Section5Content';
+import { section5Content } from '../../../utility/Sections/Section5Content';
 
 const { Section5Bg, title, subtitle, text} = section5Content;
 

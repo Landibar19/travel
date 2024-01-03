@@ -1,4 +1,4 @@
-import Section3Bg from '../assets/Section3.jpg';
+import Section3Bg from '../../assets/Section3.jpg';
 
 
 

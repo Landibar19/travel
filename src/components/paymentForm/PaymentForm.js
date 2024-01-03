@@ -1,8 +1,47 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Paper, Container, ThemeProvider } from '@mui/material';
+import { 
+  TextField, 
+  Button, Grid, 
+  Typography, 
+  Paper,
+  Container, 
+  ThemeProvider, 
+  Stack, 
+  createTheme,
+  responsiveFontSizes}
+   from '@mui/material';
 import theme from '../../themes/theme';
+import { useSelector } from 'react-redux';
 
+const customStyles = createTheme({
+  typography: { 
+    fontSize: 25,
+  },
+  components: {
+    MuiTypography: {
+      styleOverrides:{
+      root: {
+        color: 'white',
+        textAlign: 'initial',
+      },
+    },
+  },
+  },
+})
+const customTheme = responsiveFontSizes(customStyles);
+
+const spanStyle={
+  color :'rgb(255, 192, 0)',
+  fontWeight: 'bold',
+  
+}
 const PaymentForm = () => {
+
+  const totalPrice = useSelector((state) => state.travel.travelData)
+  const travel = useSelector((state)=> state.form.formDataTravel);
+  const traveler = useSelector((state) => state.form.formDataTraveler);
+
+
   const [paymentDetails, setPaymentDetails] = useState({
     cardNumber: '',
     expiryDate: '',
@@ -46,9 +85,8 @@ const PaymentForm = () => {
     }
 
     if (!errorsFound) {
-      // Implement payment logic here (e.g., API call to process payment)
+      
       console.log('Payment Details:', paymentDetails);
-      // Reset form fields after payment submission
       setPaymentDetails({
         cardNumber: '',
         expiryDate: '',
@@ -60,6 +98,56 @@ const PaymentForm = () => {
 
   return (
     <Container sx={{backgroundColor: 'rgb(38,166,166)'}} maxWidth='xxl' disableGutters>
+    <ThemeProvider theme={customTheme}>
+      <Grid 
+      container 
+      spacing={3}
+      justifyContent='center'
+       sx={{padding: '4% 8%'}}
+       >
+      <Typography variant='h5'>
+          Thank you! This is your order data.
+      </Typography>
+      <Typography variant='h5'>Please continue with payment to complete your order</Typography>
+      <Grid item  xs={10} md={6}>
+        {traveler.map((travelerData, index) => (
+        <Stack key={index}>
+          <Typography textTransform='uppercase' paddingTop={2}>Traveler {index+1}</Typography>
+          <Typography>
+            <span style={spanStyle}>Name:</span> {travelerData.name}
+          </Typography>
+          <Typography>
+            <span style={spanStyle}>Last  Name:</span>{travelerData.lastName}
+          </Typography>
+          <Typography>
+            <span style={spanStyle}>Tel:</span> {travelerData.celNumber}
+          </Typography>
+          <Typography>
+            <span style={spanStyle}>Address:</span>  {travelerData.address}
+          </Typography>
+        </Stack>
+        ))}
+      </Grid>
+      <Grid item  xs={10} md={6}>
+        <Typography textTransform='uppercase'>Travel Info</Typography>
+        <Typography>
+          <span style={spanStyle}>Destination: </span>{travel.destination}
+        </Typography>
+        <Typography>
+          <span style={spanStyle}>Travel date: </span>{travel.travelDate}
+        </Typography>
+        <Typography>
+          <span style={spanStyle}>Airport Name: </span>{travel.airportName}
+        </Typography>
+        <Typography>
+          <span style={spanStyle}>Trip type: </span>{travel.tripType}
+        </Typography>
+      </Grid>
+      <Typography paddingTop='5%'>
+        <span style={spanStyle}>Total Price</span>{totalPrice} $
+      </Typography>
+    </Grid>
+    </ThemeProvider>
       <Grid container justifyContent="center" sx={{marginTop: '-1%'}}>
       <Grid item xs={12} md={6}>
         <Paper elevation={3} style={{ padding: '20px' }} sx={{marginTop: '5%'}}>

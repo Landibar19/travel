@@ -4,7 +4,7 @@ import Instagram from '../assets/instagram.svg';
 import Reddit from '../assets/reddit.svg';
 
 
-export const Section9Content = {
+export const Section10Content = {
     SOCIALS: [
       { name: "Telegram", image: Telegram },
       { name: "Facebook", image: Facebook },

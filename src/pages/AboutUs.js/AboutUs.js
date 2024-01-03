@@ -21,7 +21,7 @@ const {
 
 const AboutUs = () => {
   return (
-    <Container maxWidth={false}disableGutters sx={{backgroundColor: 'rgb(38,166,166)'}}>
+    <Container maxWidth={false} disableGutters sx={{backgroundColor: 'rgb(38,166,166)'}}>
         <NavBar/>
         <Box  width='100%'>
             <img src={Photo1} alt='' 

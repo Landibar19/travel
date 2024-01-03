@@ -1,8 +1,8 @@
-import Section7Bg from '../assets/Section7.jpg';
-import picture1 from '../assets/section3/Picture1.png';
-import picture2 from '../assets/section3/Picture2.png';
-import picture3 from '../assets/section3/Picture3.png';
-import picture4 from '../assets/section3/Picture4.png';
+import Section7Bg from '../../assets/Section7.jpg';
+import picture1 from '../../assets/section3/Picture1.png';
+import picture2 from '../../assets/section3/Picture2.png';
+import picture3 from '../../assets/section3/Picture3.png';
+import picture4 from '../../assets/section3/Picture4.png';
 
 
 export const section7Content ={

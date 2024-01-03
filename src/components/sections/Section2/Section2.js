@@ -1,6 +1,6 @@
 import { Box, Button, Container, Typography } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
-import { section2Content } from '../../../utility/Section2Content'
+import { section2Content } from '../../../utility/Sections/Section2Content'
 import './Styles.scss'
 
 

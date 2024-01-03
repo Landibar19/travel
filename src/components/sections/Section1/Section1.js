@@ -1,5 +1,5 @@
 import React from 'react';
-import { section1Content } from '../../../utility/Section1Content';
+import { section1Content } from '../../../utility/Sections/Section1Content';
 import { Box, Container, Stack, ThemeProvider, Typography  } from '@mui/material';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'

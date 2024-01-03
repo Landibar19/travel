@@ -49,6 +49,12 @@ const themeTypography = {
     button: {
       textTransform: "none",
     },
+
+    text1:{
+      fontFamily: 'Montserrat', 
+      color: 'white', 
+      fontWeight: 'bold',
+    }
   };
   
   export default themeTypography;

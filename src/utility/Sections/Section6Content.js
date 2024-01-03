@@ -1,4 +1,4 @@
-import Section6Bg from '../assets/Section6.jpg'
+import Section6Bg from '../../assets/Section6.jpg'
 
 
 export const Section6Content = {

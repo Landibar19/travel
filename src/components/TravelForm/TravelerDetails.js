@@ -2,23 +2,33 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography, Box, Stack, Container, ThemeProvider } from '@mui/material';
 import { useSelector } from 'react-redux';
 import theme from '../../themes/theme';
+import { validateField } from './components/validateField';
 
 
 
 const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
     const price = useSelector((state)=> state.travelPackages.selectedPackages)
+  
+    const [errors, setErrors] = useState({
+      name: '',
+      lastName: '',
+      email: '',
+      celNumber: '',
+      address: ''
+    })
 
     const handleChange = (e, index) => {
         const { name, value } = e.target;
         const newFormData = [...formDataTraveler];
         newFormData[index] = { ...newFormData[index], [name]: value };
         setFormDataTraveler(newFormData);
-      };
+        const newErrors = validateField(name, value, errors);
+        setErrors(newErrors);
+    }
       
       const addTraveler = () => {
         setFormDataTraveler([...formDataTraveler, { name: '', lastName: '', cellNumber: '', price: price }]);
-      };
-    
+    };
 
       const removeTraveler = (index) => {
         const newFormData = [...formDataTraveler];
@@ -62,7 +72,7 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                                 Traveler {index+ 1}
                         </Typography>
                         <Typography sx={{fontFamily: 'Montserrat', color: 'white', fontWeight: 'bold'}}>
-                            Price Package:{price}
+                            Price Package:{price}$
                         </Typography>
                         </Stack>
                         <Stack 
@@ -82,8 +92,10 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                         <TextField
                             name="name"
                             label="Name"
-                            fullWidth
                             value={traveler.name}
+                            error={Boolean(errors.name)}
+                            helperText={errors.name} 
+                            fullWidth
                             onChange={(e)=> handleChange(e, index)}
                         />
                         </Grid>
@@ -92,6 +104,8 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                             name="lastName"
                             label="LastName"
                             fullWidth
+                            error={Boolean(errors.lastName)}
+                            helperText={errors.lastName} 
                             value={traveler.lastName}
                             onChange={ (e)=> handleChange(e, index)}
                         />
@@ -101,6 +115,8 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                             name="email"
                             label="Email"
                             value={traveler.email}
+                            error={Boolean(errors.email)}
+                            helperText={errors.email} 
                             fullWidth
                             onChange={(e)=> handleChange(e, index)}
                         />
@@ -124,6 +140,8 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                             name="celNumber"
                             label="celNumber"
                             value={traveler.celNumber}
+                            error={Boolean(errors.celNumber)}
+                            helperText={errors.celNumber} 
                             fullWidth
                             onChange={(e)=> handleChange(e, index)}
                         />
@@ -133,6 +151,8 @@ const TravelerDetails = ({onSubmit,formDataTraveler, setFormDataTraveler}) => {
                             name="address"
                             label="Addres"
                             value={traveler.address}
+                            error={Boolean(errors.address)}
+                            helperText={errors.address} 
                             fullWidth
                             onChange={(e)=> handleChange(e, index)}
                             multiline
